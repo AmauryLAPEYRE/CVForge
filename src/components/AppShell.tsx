@@ -3,6 +3,7 @@
 import { useReducer, useCallback, useEffect } from "react";
 import { CVStoreContext, initialState, reducer } from "@/hooks/useCVStore";
 import type { Step } from "@/lib/types";
+import AnalyseOverlay from "./AnalyseOverlay";
 
 const STEPS = [
   { num: 1, label: "Deposez" },
@@ -128,6 +129,8 @@ export default function AppShell({ children }: { children: React.ReactNode[] }) 
             </div>
           ))}
         </div>
+
+        <AnalyseOverlay />
 
         {/* BOTTOMBAR */}
         <div style={{
