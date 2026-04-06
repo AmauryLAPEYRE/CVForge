@@ -1,26 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-bg: #06060a;
+  --color-bg-card: #0e0e14;
+  --color-bg-up: #151520;
+  --color-bg-in: #0b0b12;
+  --color-brd: #1e1e2e;
+  --color-brd-h: #2e2e44;
+  --color-acc: #c9a55a;
+  --color-acc-s: #a8884a;
+  --color-acc-g: rgba(201,165,90,0.07);
+  --color-acc-gm: rgba(201,165,90,0.14);
+  --color-acc-gs: rgba(201,165,90,0.25);
+  --color-tx: #eae6df;
+  --color-tx2: #8e8e9e;
+  --color-tx3: #4e4e62;
+  --color-grn: #5cffa0;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'DM Sans', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-tx);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
+}
+
+/* Slide transitions */
+.slide-enter { opacity: 0; transform: translateX(80px); }
+.slide-active { opacity: 1; transform: translateX(0); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.slide-exit { opacity: 0; transform: translateX(-80px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: revealUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes scanDown {
+  0% { top: -40px; }
+  100% { top: 250px; }
+}
+
+@keyframes flyOut {
+  0% { opacity: 0; transform: translateX(-10px); }
+  30% { opacity: 1; transform: translateX(10px); }
+  70% { opacity: 1; transform: translateX(10px); }
+  100% { opacity: 0; transform: translateX(40px); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
