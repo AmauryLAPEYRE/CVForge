@@ -53,6 +53,10 @@ export interface AppState {
   jobOffer: string;
   generatedCVs: GeneratedCV[];
   selectedCVId: string | null;
+  originalCvData: CVData | null;
   isExtracting: boolean;
+  extractionProgress: number;
   isGenerating: boolean;
+  generationProgress: number;
+  isAdapting: boolean;
 }

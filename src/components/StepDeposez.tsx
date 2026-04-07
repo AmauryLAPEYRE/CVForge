@@ -13,38 +13,61 @@ const STATS = [
 export default function StepDeposez() {
   const { dispatch } = useCVStore();
 
-  async function handleFile(file: File) {
+  async function extract(fetchFn: () => Promise<Response>) {
     dispatch({ type: "SET_EXTRACTING", value: true });
+    dispatch({ type: "SET_EXTRACTION_PROGRESS", value: 0 });
+
+    // Animate progress steps while API is running (stop at 4/5, last waits for API)
+    let step = 0;
+    const progressTimer = setInterval(() => {
+      step++;
+      if (step <= 4) {
+        dispatch({ type: "SET_EXTRACTION_PROGRESS", value: step });
+      } else {
+        clearInterval(progressTimer);
+      }
+    }, 1200);
+
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("/api/extract", { method: "POST", body: formData });
+      const res = await fetchFn();
+      // Clear timer and jump to completion
+      clearInterval(progressTimer);
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || "Extraction failed");
+      }
+
       const data: CVData = await res.json();
+
+      // Complete the progress animation
+      dispatch({ type: "SET_EXTRACTION_PROGRESS", value: 5 });
       dispatch({ type: "SET_CV_DATA", data });
-    } catch {
-      // API not yet built — fail silently, extraction state will reset
-    } finally {
+
+      // Small delay to show 100% before dismissing
+      await new Promise((r) => setTimeout(r, 800));
+
       dispatch({ type: "SET_EXTRACTING", value: false });
       dispatch({ type: "SET_STEP", step: 1 });
+    } catch (e) {
+      clearInterval(progressTimer);
+      dispatch({ type: "SET_EXTRACTING", value: false });
+      alert("Erreur d'extraction: " + (e instanceof Error ? e.message : "Erreur inconnue"));
     }
   }
 
+  async function handleFile(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
+    extract(() => fetch("/api/extract", { method: "POST", body: formData }));
+  }
+
   async function handleText(text: string) {
-    dispatch({ type: "SET_EXTRACTING", value: true });
-    try {
-      const res = await fetch("/api/extract", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      const data: CVData = await res.json();
-      dispatch({ type: "SET_CV_DATA", data });
-    } catch {
-      // API not yet built — fail silently
-    } finally {
-      dispatch({ type: "SET_EXTRACTING", value: false });
-      dispatch({ type: "SET_STEP", step: 1 });
-    }
+    extract(() => fetch("/api/extract", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    }));
   }
 
   return (

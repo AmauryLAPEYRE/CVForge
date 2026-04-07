@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Kaleo — CV</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Archivo:wght@300;400;500;600;700;800&family=Overpass+Mono:wght@300;400;500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{background:#444;display:flex;justify-content:center;padding:30px;}
+
+:root{--accent:#2d6a4f;}
+
+.page{
+  width:210mm;height:297mm;
+  background:#f7f5f0;
+  font-family:'Archivo',sans-serif;color:#1a1a1a;
+  position:relative;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+}
+@media print{body{background:#fff;padding:0;}.page{box-shadow:none;}@page{size:A4;margin:0;}}
+
+/* Grid background — subtle blueprint feel */
+.page::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.018) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+/* Margin marks — top left */
+.mark-tl{position:absolute;top:20px;left:20px;width:16px;height:16px;border-top:1.5px solid var(--accent);border-left:1.5px solid var(--accent);opacity:0.4;}
+.mark-tr{position:absolute;top:20px;right:20px;width:16px;height:16px;border-top:1.5px solid var(--accent);border-right:1.5px solid var(--accent);opacity:0.4;}
+.mark-bl{position:absolute;bottom:20px;left:20px;width:16px;height:16px;border-bottom:1.5px solid var(--accent);border-left:1.5px solid var(--accent);opacity:0.4;}
+.mark-br{position:absolute;bottom:20px;right:20px;width:16px;height:16px;border-bottom:1.5px solid var(--accent);border-right:1.5px solid var(--accent);opacity:0.4;}
+
+/* Coordinates — like a blueprint */
+.coord-left{
+  position:absolute;left:10px;top:50%;transform:translateY(-50%) rotate(-90deg);
+  font-family:'Overpass Mono',monospace;font-size:7px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--accent);opacity:0.25;white-space:nowrap;
+}
+.coord-bottom{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  font-family:'Overpass Mono',monospace;font-size:7px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--accent);opacity:0.25;
+}
+
+/* HEADER — asymmetric, nom decale */
+.header{
+  padding:44px 50px 0;
+  display:grid;grid-template-columns:1fr 220px;gap:30px;
+  align-items:end;
+}
+
+.name-block{position:relative;}
+.name-pre{
+  font-family:'Overpass Mono',monospace;font-size:9px;font-weight:400;
+  letter-spacing:4px;text-transform:uppercase;color:var(--accent);
+  margin-bottom:8px;
+}
+.name-big{
+  font-family:'Libre Caslon Display',serif;
+  font-size:52px;line-height:0.95;color:#1a1a1a;
+  position:relative;
+}
+/* Accent block behind first letter */
+.name-big::before{
+  content:'';position:absolute;left:-8px;top:4px;
+  width:48px;height:48px;background:var(--accent);opacity:0.08;
+  border-radius:4px;
+}
+.name-role{
+  font-size:14px;font-weight:500;color:var(--accent);
+  margin-top:14px;letter-spacing:1px;
+}
+
+.contact-card{
+  background:var(--accent);color:#fff;
+  border-radius:8px;padding:20px;
+  position:relative;overflow:hidden;
+}
+.contact-card::after{
+  content:'';position:absolute;top:-20px;right:-20px;
+  width:60px;height:60px;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+}
+.contact-item{
+  font-size:13px;line-height:2;font-weight:300;
+  display:flex;align-items:center;gap:8px;
+}
+.contact-item svg{width:13px;height:13px;fill:none;stroke:rgba(255,255,255,0.6);stroke-width:1.5;flex-shrink:0;}
+.contact-item strong{font-weight:500;}
+
+/* DIVIDER */
+.divider{
+  margin:24px 50px;height:0;border:none;
+  border-top:1.5px solid var(--accent);opacity:0.15;
+}
+
+/* BODY — unique layout: 2 offset blocks */
+.body{
+  padding:0 50px 40px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:auto auto auto;
+  gap:20px 30px;
+}
+
+/* Profil — full width */
+.profil-section{grid-column:1/-1;}
+.s-label{
+  font-family:'Overpass Mono',monospace;font-size:9px;font-weight:600;
+  text-transform:uppercase;letter-spacing:4px;color:var(--accent);
+  margin-bottom:10px;display:flex;align-items:center;gap:10px;
+}
+.s-label::before{
+  content:'';width:20px;height:2px;background:var(--accent);
+}
+.profile-text{
+  font-size:14px;color:#444;line-height:1.95;font-weight:300;
+  columns:2;column-gap:30px;
+}
+.profile-text strong{color:#1a1a1a;font-weight:600;}
+
+/* Experience — left column */
+.exp-section{grid-column:1;grid-row:2/4;}
+
+.exp{
+  margin-bottom:20px;padding:18px;
+  background:#fff;border-radius:6px;
+  border-left:3px solid var(--accent);
+  box-shadow:0 2px 8px rgba(0,0,0,0.03);
+}
+.exp-top{display:flex;justify-content:space-between;align-items:baseline;}
+.exp-role{font-size:17px;font-weight:700;color:#1a1a1a;}
+.exp-date{
+  font-family:'Overpass Mono',monospace;
+  font-size:10px;color:var(--accent);font-weight:500;
+}
+.exp-company{font-size:12px;font-weight:500;color:#888;margin-top:2px;letter-spacing:0.5px;}
+.exp-tasks{list-style:none;margin-top:8px;}
+.exp-tasks li{
+  font-size:13px;color:#555;line-height:1.7;
+  padding-left:14px;position:relative;font-weight:300;
+}
+.exp-tasks li::before{
+  content:'';position:absolute;left:0;top:9px;
+  width:6px;height:2px;background:var(--accent);border-radius:1px;
+}
+
+/* Right column — Skills, Formation, Langues, Interets stacked */
+.right-stack{grid-column:2;grid-row:2/4;display:flex;flex-direction:column;gap:20px;}
+
+.skill-cloud{display:flex;flex-wrap:wrap;gap:6px;}
+.skill-chip{
+  font-size:12px;padding:7px 14px;font-weight:500;
+  background:#fff;border:1.5px solid var(--accent);
+  border-radius:20px;color:var(--accent);
+  transition:all 0.2s;
+}
+
+.edu-card{
+  display:flex;gap:14px;margin-bottom:12px;align-items:flex-start;
+}
+.edu-year{
+  font-family:'Overpass Mono',monospace;
+  font-size:11px;font-weight:600;color:var(--accent);
+  background:rgba(45,106,79,0.08);padding:4px 8px;border-radius:4px;
+  white-space:nowrap;
+}
+.edu-info{}
+.edu-degree{font-size:14px;font-weight:600;color:#1a1a1a;}
+.edu-school{font-size:11px;color:#999;margin-top:2px;font-weight:300;}
+
+.lang-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.lang-name{font-size:13px;color:#444;font-weight:500;width:75px;}
+.lang-dots{display:flex;gap:4px;}
+.lang-dot{
+  width:10px;height:10px;border-radius:50%;
+  border:1.5px solid var(--accent);
+}
+.lang-dot.filled{background:var(--accent);}
+
+.interests-row{
+  display:flex;flex-wrap:wrap;gap:8px;
+  font-size:12px;color:#777;font-weight:300;
+}
+.interest-item{
+  display:flex;align-items:center;gap:4px;
+}
+.interest-item::before{
+  content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:0.4;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- Blueprint marks -->
+  <div class="mark-tl"></div><div class="mark-tr"></div>
+  <div class="mark-bl"></div><div class="mark-br"></div>
+  <div class="coord-left">CURRICULUM VITAE — 2024 — CONFIDENTIEL</div>
+  <div class="coord-bottom">REF. ML-2024-001 — A4 210×297</div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="name-block">
+      <div class="name-pre">Curriculum Vitae</div>
+      <div class="name-big">{{firstName}}<br>{{lastName}}</div>
+      <div class="name-role">{{title}}</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/></svg><strong>{{phone}}</strong></div>
+      <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l-10 7L2 6" stroke-linecap="round" stroke-linejoin="round"/></svg>{{email}}</div>
+      <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3"/></svg>{{address}}</div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- BODY -->
+  <div class="body">
+    <!-- Profil — full width, 2 columns text -->
+    <div class="profil-section">
+      <div class="s-label">Profil</div>
+      <p class="profile-text">{{profile}}</p>
+    </div>
+
+    <!-- Experience — left -->
+    <div class="exp-section">
+      <div class="s-label">Experience</div>
+      {{#experiences}}
+      <div class="exp">
+        <div class="exp-top">
+          <div class="exp-role">{{exp.title}}</div>
+          <div class="exp-date">{{exp.startDate}} — {{exp.endDate}}</div>
+        </div>
+        <div class="exp-company">{{exp.company}} — {{exp.location}}</div>
+        <ul class="exp-tasks">
+          {{#exp.tasks}}<li>{{task}}</li>{{/exp.tasks}}
+        </ul>
+      </div>
+      {{/experiences}}
+    </div>
+
+    <!-- Right stack -->
+    <div class="right-stack">
+      <div>
+        <div class="s-label">Competences</div>
+        <div class="skill-cloud">
+          {{#skills}}<span class="skill-chip">{{skill}}</span>{{/skills}}
+        </div>
+      </div>
+
+      <div>
+        <div class="s-label">Formation</div>
+        {{#education}}
+        <div class="edu-card">
+          <div class="edu-year">{{edu.year}}</div>
+          <div class="edu-info"><div class="edu-degree">{{edu.degree}}</div><div class="edu-school">{{edu.school}}</div></div>
+        </div>
+        {{/education}}
+      </div>
+
+      <div>
+        <div class="s-label">Langues</div>
+        {{#languages}}
+        <div class="lang-row"><span class="lang-name">{{lang.name}}</span><div class="lang-dots"><div class="lang-dot filled"></div><div class="lang-dot filled"></div><div class="lang-dot filled"></div><div class="lang-dot filled"></div><div class="lang-dot"></div></div></div>
+        {{/languages}}
+      </div>
+
+      <div>
+        <div class="s-label">Interets</div>
+        <div class="interests-row">
+          {{#interests}}<span class="interest-item">{{interest}}</span>{{/interests}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

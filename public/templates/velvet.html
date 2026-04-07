@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Velvet — CV</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Raleway:wght@200;300;400;500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{background:#222;display:flex;justify-content:center;padding:30px;}
+
+:root{--accent:#a08050;--accent-light:#c4a97a;--bg:#18171a;--bg2:#1f1e22;--tx:#e4dfd6;--tx2:#8a857c;--tx3:#4a4740;}
+
+.page{
+  width:210mm;height:297mm;
+  background:var(--bg);color:var(--tx);
+  font-family:'Raleway',sans-serif;
+  position:relative;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+@media print{body{background:#000;padding:0;}.page{box-shadow:none;}@page{size:A4;margin:0;}}
+
+/* Golden frame — the ecrin */
+.frame-outer{
+  position:absolute;top:16px;left:16px;right:16px;bottom:16px;
+  border:0.5px solid rgba(160,128,80,0.15);
+  pointer-events:none;z-index:5;
+}
+.frame-inner{
+  position:absolute;top:20px;left:20px;right:20px;bottom:20px;
+  border:1px solid rgba(160,128,80,0.1);
+  pointer-events:none;z-index:5;
+}
+/* Corner ornaments */
+.corner{position:absolute;width:20px;height:20px;z-index:6;}
+.corner::before,.corner::after{content:'';position:absolute;background:var(--accent);opacity:0.3;}
+.corner-tl{top:16px;left:16px;}.corner-tl::before{top:0;left:0;width:20px;height:1px;}.corner-tl::after{top:0;left:0;width:1px;height:20px;}
+.corner-tr{top:16px;right:16px;}.corner-tr::before{top:0;right:0;width:20px;height:1px;}.corner-tr::after{top:0;right:0;width:1px;height:20px;}
+.corner-bl{bottom:16px;left:16px;}.corner-bl::before{bottom:0;left:0;width:20px;height:1px;}.corner-bl::after{bottom:0;left:0;width:1px;height:20px;}
+.corner-br{bottom:16px;right:16px;}.corner-br::before{bottom:0;right:0;width:20px;height:1px;}.corner-br::after{bottom:0;right:0;width:1px;height:20px;}
+
+/* HEADER — centered, like an engraving */
+.header{
+  text-align:center;padding:52px 60px 0;position:relative;z-index:10;
+}
+.header-pre{
+  font-size:9px;font-weight:400;letter-spacing:6px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+}
+.header-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:300;letter-spacing:4px;
+  color:var(--tx);line-height:1;
+}
+.header-name strong{font-weight:700;color:var(--accent-light);}
+.header-role{
+  font-size:14px;font-weight:200;letter-spacing:5px;text-transform:uppercase;
+  color:var(--tx2);margin-top:14px;
+}
+
+/* Decorative divider */
+.divider-ornament{
+  display:flex;align-items:center;justify-content:center;
+  gap:12px;margin:22px auto;width:200px;
+}
+.div-line{flex:1;height:0.5px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.3;}
+.div-diamond{width:6px;height:6px;background:var(--accent);transform:rotate(45deg);opacity:0.4;}
+
+/* Contact — horizontal, centered */
+.contact-row{
+  display:flex;justify-content:center;gap:28px;
+  margin-bottom:28px;
+}
+.contact-item{
+  font-size:11px;color:var(--tx2);font-weight:300;
+  display:flex;align-items:center;gap:6px;
+}
+.contact-item svg{width:11px;height:11px;fill:none;stroke:var(--accent);stroke-width:1.2;opacity:0.5;}
+
+/* BODY — two symmetric panels like an open book */
+.body{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;margin:0 36px;flex:1;
+  position:relative;z-index:10;
+}
+/* Center spine */
+.body::before{
+  content:'';position:absolute;
+  top:0;bottom:40px;left:50%;width:1px;
+  background:linear-gradient(180deg,var(--accent),rgba(160,128,80,0.05));
+  opacity:0.15;
+}
+
+.panel{padding:0 28px;}
+.panel-left{border-right:none;}
+.panel-right{border-left:none;}
+
+/* Section labels */
+.s-label{
+  font-size:8px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.s-label::after{content:'';flex:1;height:0.5px;background:var(--accent);opacity:0.12;}
+
+/* Profil */
+.profil{
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;font-style:italic;color:var(--tx2);
+  line-height:2;font-weight:300;margin-bottom:26px;
+}
+.profil strong{color:var(--tx);font-weight:500;font-style:normal;}
+
+/* Experience */
+.exp{margin-bottom:22px;}
+.exp-role{
+  font-family:'Cormorant Garamond',serif;
+  font-size:19px;font-weight:600;color:var(--tx);letter-spacing:0.3px;
+}
+.exp-meta{
+  font-size:11px;color:var(--accent);font-weight:400;margin-top:3px;
+}
+.exp-meta span{color:var(--tx3);}
+.exp-tasks{list-style:none;margin-top:10px;}
+.exp-tasks li{
+  font-size:13px;color:var(--tx2);line-height:1.8;
+  padding-left:14px;position:relative;font-weight:300;
+}
+.exp-tasks li::before{
+  content:'';position:absolute;left:2px;top:10px;
+  width:4px;height:4px;border-radius:50%;
+  background:var(--accent);opacity:0.3;
+}
+
+/* Skills — elegant list with dots */
+.skill-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:8px 0;border-bottom:0.5px solid rgba(160,128,80,0.06);
+}
+.skill-row:last-child{border-bottom:none;}
+.skill-name{font-size:13px;color:var(--tx);font-weight:300;}
+.skill-dots{display:flex;gap:4px;}
+.skill-dot{width:7px;height:7px;border-radius:50%;border:1px solid rgba(160,128,80,0.2);}
+.skill-dot.filled{background:var(--accent);border-color:var(--accent);}
+
+/* Education */
+.edu{margin-bottom:14px;}
+.edu-degree{
+  font-family:'Cormorant Garamond',serif;
+  font-size:16px;font-weight:600;color:var(--tx);
+}
+.edu-school{font-size:11px;color:var(--tx3);margin-top:2px;font-weight:300;}
+
+/* Languages */
+.lang-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:6px 0;font-size:13px;
+}
+.lang-name{color:var(--tx);font-weight:300;}
+.lang-level{
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--accent);font-weight:400;
+}
+
+/* Interests */
+.interests{
+  display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;
+}
+.interest{
+  font-size:10px;padding:5px 12px;
+  border:0.5px solid rgba(160,128,80,0.15);border-radius:3px;
+  color:var(--tx2);font-weight:300;
+  background:rgba(160,128,80,0.03);
+}
+
+/* Footer signature */
+.footer{
+  position:absolute;bottom:26px;left:0;right:0;z-index:10;
+  text-align:center;
+}
+.footer-text{
+  font-size:7px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--tx3);
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <!-- Frame -->
+  <div class="frame-outer"></div>
+  <div class="frame-inner"></div>
+  <div class="corner corner-tl"></div>
+  <div class="corner corner-tr"></div>
+  <div class="corner corner-bl"></div>
+  <div class="corner corner-br"></div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-pre">Curriculum Vitae</div>
+    <div class="header-name">{{firstName}} <strong>{{lastName}}</strong></div>
+    <div class="header-role">{{title}}</div>
+  </div>
+
+  <div class="divider-ornament">
+    <div class="div-line"></div>
+    <div class="div-diamond"></div>
+    <div class="div-line"></div>
+  </div>
+
+  <!-- Contact -->
+  <div class="contact-row">
+    <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/></svg>{{phone}}</div>
+    <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l-10 7L2 6" stroke-linecap="round" stroke-linejoin="round"/></svg>{{email}}</div>
+    <div class="contact-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="3"/></svg>{{address}}</div>
+  </div>
+
+  <!-- BODY — two panels -->
+  <div class="body">
+    <!-- LEFT PANEL -->
+    <div class="panel panel-left">
+      <div class="s-label">Profil</div>
+      <p class="profil">{{profile}}</p>
+
+      <div class="s-label">Experience</div>
+      {{#experiences}}
+      <div class="exp">
+        <div class="exp-role">{{exp.title}}</div>
+        <div class="exp-meta">{{exp.company}} <span>·</span> {{exp.location}} <span>·</span> {{exp.startDate}} — {{exp.endDate}}</div>
+        <ul class="exp-tasks">
+          {{#exp.tasks}}<li>{{task}}</li>{{/exp.tasks}}
+        </ul>
+      </div>
+      {{/experiences}}
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="panel panel-right">
+      <div class="s-label">Competences</div>
+      {{#skills}}
+      <div class="skill-row"><span class="skill-name">{{skill}}</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
+      {{/skills}}
+
+      <div style="margin-top:24px;">
+        <div class="s-label">Formation</div>
+        {{#education}}
+        <div class="edu"><div class="edu-degree">{{edu.degree}}</div><div class="edu-school">{{edu.school}} — {{edu.year}}</div></div>
+        {{/education}}
+      </div>
+
+      <div style="margin-top:24px;">
+        <div class="s-label">Langues</div>
+        {{#languages}}
+        <div class="lang-row"><span class="lang-name">{{lang.name}}</span><span class="lang-level">{{lang.level}}</span></div>
+        {{/languages}}
+      </div>
+
+      <div style="margin-top:24px;">
+        <div class="s-label">Centres d'interet</div>
+        <div class="interests">
+          {{#interests}}<span class="interest">{{interest}}</span>{{/interests}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer"><div class="footer-text">Genere par CVForge</div></div>
+</div>
+</body>
+</html>

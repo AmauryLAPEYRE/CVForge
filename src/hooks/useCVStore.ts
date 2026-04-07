@@ -9,8 +9,12 @@ const initialState: AppState = {
   jobOffer: "",
   generatedCVs: [],
   selectedCVId: null,
+  originalCvData: null,
   isExtracting: false,
+  extractionProgress: 0,
   isGenerating: false,
+  generationProgress: 0,
+  isAdapting: false,
 };
 
 type Action =
@@ -20,8 +24,12 @@ type Action =
   | { type: "SET_GENERATED_CVS"; cvs: GeneratedCV[] }
   | { type: "ADD_GENERATED_CVS"; cvs: GeneratedCV[] }
   | { type: "SELECT_CV"; id: string | null }
+  | { type: "SET_ADAPTING"; value: boolean }
+  | { type: "RESTORE_ORIGINAL_CV" }
   | { type: "SET_EXTRACTING"; value: boolean }
+  | { type: "SET_EXTRACTION_PROGRESS"; value: number }
   | { type: "SET_GENERATING"; value: boolean }
+  | { type: "SET_GENERATION_PROGRESS"; value: number }
   | { type: "UPDATE_CV_COLOR"; id: string; color: string }
   | { type: "UPDATE_CV_LAYOUT"; id: string; layout: GeneratedCV["layout"] };
 
@@ -30,7 +38,11 @@ function reducer(state: AppState, action: Action): AppState {
     case "SET_STEP":
       return { ...state, step: action.step };
     case "SET_CV_DATA":
-      return { ...state, cvData: action.data };
+      return {
+        ...state,
+        cvData: action.data,
+        originalCvData: state.originalCvData || action.data,
+      };
     case "SET_JOB_OFFER":
       return { ...state, jobOffer: action.text };
     case "SET_GENERATED_CVS":
@@ -39,10 +51,18 @@ function reducer(state: AppState, action: Action): AppState {
       return { ...state, generatedCVs: [...state.generatedCVs, ...action.cvs] };
     case "SELECT_CV":
       return { ...state, selectedCVId: action.id };
+    case "SET_ADAPTING":
+      return { ...state, isAdapting: action.value };
+    case "RESTORE_ORIGINAL_CV":
+      return { ...state, cvData: state.originalCvData, isAdapting: false };
     case "SET_EXTRACTING":
-      return { ...state, isExtracting: action.value };
+      return { ...state, isExtracting: action.value, extractionProgress: action.value ? 0 : state.extractionProgress };
+    case "SET_EXTRACTION_PROGRESS":
+      return { ...state, extractionProgress: action.value };
     case "SET_GENERATING":
-      return { ...state, isGenerating: action.value };
+      return { ...state, isGenerating: action.value, generationProgress: action.value ? 0 : state.generationProgress };
+    case "SET_GENERATION_PROGRESS":
+      return { ...state, generationProgress: action.value };
     case "UPDATE_CV_COLOR":
       return {
         ...state,
