@@ -2,166 +2,92 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Nørd — CV</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-body{background:#444;display:flex;justify-content:center;padding:30px;}
 
 :root{--accent:#5a6c57;}
 
 .page{
-  width:210mm;height:297mm;
-  background:#f2efea;
+  width:210mm;height:297mm;background:#f2efea;
   font-family:'Outfit',sans-serif;color:#2a2a28;
-  position:relative;overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.3);
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;overflow:hidden;
 }
-@media print{body{background:#fff;padding:0;}.page{box-shadow:none;}@page{size:A4;margin:0;}}
+@media print{@page{size:A4;margin:0;}}
 
-/* HEADER — poster style, nom geant */
-.header{
-  padding:36px 44px 0;flex-shrink:0;
-  position:relative;
-}
+/* HEADER — poster but controlled */
+.header{padding:32px 40px 0;flex-shrink:0;}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;}
 
-.header-top{
-  display:flex;justify-content:space-between;align-items:flex-start;
-}
-
-.name-huge{
-  font-size:88px;font-weight:900;line-height:0.85;
-  letter-spacing:-4px;text-transform:uppercase;color:#2a2a28;
-  position:relative;
-}
-/* Accent underline on last name */
-.name-last{
-  position:relative;display:inline-block;
-}
-.name-last::after{
-  content:'';position:absolute;bottom:4px;left:0;right:0;
-  height:12px;background:var(--accent);opacity:0.15;
-  border-radius:2px;z-index:0;
-}
+/* Nom — 32px uppercase bold = poster feel without eating space */
+.name-big{font-size:32px;font-weight:900;line-height:0.9;letter-spacing:-1px;text-transform:uppercase;}
+.name-last{position:relative;display:inline-block;}
+.name-last::after{content:'';position:absolute;bottom:2px;left:0;right:0;height:8px;background:var(--accent);opacity:0.12;border-radius:2px;z-index:0;}
 .name-last span{position:relative;z-index:1;}
 
-.contact-minimal{
-  text-align:right;padding-top:12px;
-}
-.contact-minimal div{
-  font-size:12px;color:#888;line-height:2.2;font-weight:300;
-}
+/* Contact — 11px */
+.contact-minimal{text-align:right;padding-top:4px;}
+.contact-minimal div{font-size:11px;color:#888;line-height:2;font-weight:300;}
 .contact-minimal strong{color:#2a2a28;font-weight:500;}
 
-.role-line{
-  margin-top:14px;padding:10px 0;
-  border-top:2px solid #2a2a28;border-bottom:1px solid #ddd8ce;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.role-title{
-  font-family:'Crimson Pro',serif;
-  font-size:18px;font-weight:400;font-style:italic;color:var(--accent);
-  letter-spacing:1px;
-}
-.role-tag{
-  font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
-  color:#aaa;
-}
+.role-line{margin-top:12px;padding:8px 0;border-top:2px solid #2a2a28;border-bottom:1px solid #ddd8ce;display:flex;align-items:center;}
+/* Titre — 14px italic */
+.role-title{font-family:'Crimson Pro',serif;font-size:14px;font-weight:400;font-style:italic;color:var(--accent);letter-spacing:1px;}
 
 /* BODY — card grid */
-.body{
-  flex:1;padding:20px 44px 36px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  grid-template-rows:auto 1fr auto;
-  gap:14px;
-}
+.body{flex:1;padding:16px 40px 32px;display:grid;grid-template-columns:1fr 1fr 180px;grid-template-rows:auto 1fr;gap:10px;}
 
-/* Card base */
-.card{
-  background:#fff;border-radius:8px;padding:22px;
-  position:relative;overflow:hidden;
-  box-shadow:0 1px 4px rgba(0,0,0,0.04);
-}
-.card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:var(--accent);border-radius:8px 8px 0 0;
-}
+/* Card */
+.card{background:#fff;border-radius:6px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04);position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);border-radius:6px 6px 0 0;}
 
-.card-label{
-  font-size:9px;font-weight:700;text-transform:uppercase;
-  letter-spacing:3px;color:var(--accent);margin-bottom:12px;
-}
+/* Titres section — 14px */
+.card-label{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:10px;}
 
-/* Profil card — spans 3 cols */
-.profil-card{grid-column:1/-1;}
-.profil-card .profil-text{
-  font-family:'Crimson Pro',serif;
-  font-size:17px;color:#444;line-height:1.85;font-weight:300;
-  columns:2;column-gap:30px;
-}
-.profil-text strong{color:#2a2a28;font-weight:500;}
+/* Profil — spans 2 cols */
+.profil-card{grid-column:1/3;}
+.profil-text{font-family:'Crimson Pro',serif;font-size:13px;color:#444;line-height:1.6;font-weight:400;}
+.profil-text strong{color:#2a2a28;font-weight:600;}
 
-/* Experience card — spans 2 cols, 2 rows */
-.exp-card{grid-column:1/3;grid-row:2/4;}
-
-.exp{margin-bottom:18px;}
-.exp:last-child{margin-bottom:0;}
-.exp-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
-.exp-role{font-size:17px;font-weight:700;color:#2a2a28;}
+/* Experience — spans 2 cols row 2 */
+.exp-card{grid-column:1/3;grid-row:2;}
+.exp{margin-bottom:12px;}
+.exp-header{display:flex;justify-content:space-between;align-items:baseline;}
+/* Titre poste — 15px */
+.exp-role{font-size:15px;font-weight:700;color:#2a2a28;}
 .exp-date{font-size:11px;color:var(--accent);font-weight:600;}
-.exp-company{font-size:12px;color:#999;font-weight:400;letter-spacing:0.5px;}
-.exp-tasks{list-style:none;margin-top:8px;}
-.exp-tasks li{
-  font-size:13px;color:#666;line-height:1.75;
-  padding-left:16px;position:relative;font-weight:300;
-}
-.exp-tasks li::before{
-  content:'';position:absolute;left:2px;top:8px;
-  width:6px;height:6px;border-radius:2px;
-  background:var(--accent);opacity:0.3;
-  transform:rotate(45deg);
-}
+.exp-company{font-size:11px;color:#999;font-weight:400;margin-top:1px;}
+/* Tasks — 11px */
+.exp-tasks{list-style:none;margin-top:6px;}
+.exp-tasks li{font-size:11px;color:#666;line-height:1.5;padding-left:14px;position:relative;font-weight:300;}
+.exp-tasks li::before{content:'';position:absolute;left:2px;top:7px;width:5px;height:5px;border-radius:1px;background:var(--accent);opacity:0.25;transform:rotate(45deg);}
 
-/* Skills card */
-.skills-card{grid-column:3;grid-row:2;}
-.skill-item{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:8px 0;border-bottom:1px solid #f5f2ed;
-}
-.skill-item:last-child{border-bottom:none;}
-.skill-name{font-size:13px;font-weight:400;color:#444;}
-.skill-bar-mini{width:50px;height:3px;background:#eee;border-radius:2px;overflow:hidden;}
-.skill-fill-mini{height:100%;background:var(--accent);border-radius:2px;}
+/* Skills — col 3 row 1 */
+.skills-card{grid-column:3;grid-row:1;}
+.skill-tag{display:inline-block;font-size:11px;padding:4px 10px;margin:0 4px 5px 0;background:#f5f2ed;border-left:2px solid var(--accent);border-radius:2px;color:#444;}
 
-/* Bottom right — Formation + Langues + Interets */
-.meta-card{grid-column:3;grid-row:3;}
+/* Meta — col 3 row 2 */
+.meta-card{grid-column:3;grid-row:2;display:flex;flex-direction:column;gap:14px;}
 
-.edu-mini{margin-bottom:12px;}
-.edu-mini-degree{font-size:13px;font-weight:600;color:#2a2a28;}
-.edu-mini-school{font-size:11px;color:#aaa;font-weight:300;margin-top:1px;}
+/* Education — 11px */
+.edu-item{margin-bottom:8px;}
+.edu-degree{font-size:12px;font-weight:600;color:#2a2a28;}
+.edu-school{font-size:10px;color:#aaa;font-weight:300;margin-top:1px;}
 
-.lang-mini{display:flex;justify-content:space-between;padding:4px 0;font-size:12px;}
-.lang-mini-name{color:#444;font-weight:400;}
-.lang-mini-level{
-  font-size:10px;color:#fff;font-weight:600;
-  background:var(--accent);padding:2px 8px;border-radius:10px;
-}
+/* Langues — badges */
+.lang{display:flex;justify-content:space-between;align-items:center;padding:3px 0;font-size:11px;}
+.lang-name{color:#444;font-weight:400;}
+.lang-level{font-size:9px;color:#fff;font-weight:600;background:var(--accent);padding:2px 7px;border-radius:8px;}
 
-.interests-mini{
-  margin-top:12px;padding-top:10px;border-top:1px solid #f5f2ed;
-  font-size:12px;color:#999;line-height:2;font-weight:300;
-}
+/* Interets — 11px */
+.interests{font-size:11px;color:#999;line-height:1.8;font-weight:300;}
 </style>
 </head>
 <body>
 <div class="page">
-  <!-- HEADER — poster -->
   <div class="header">
     <div class="header-top">
-      <div class="name-huge">
+      <div class="name-big">
         {{firstName}}<br>
         <div class="name-last"><span>{{lastName}}</span></div>
       </div>
@@ -173,21 +99,17 @@ body{background:#444;display:flex;justify-content:center;padding:30px;}
     </div>
     <div class="role-line">
       <div class="role-title">{{title}}</div>
-      <div class="role-tag"></div>
     </div>
   </div>
 
-  <!-- BODY — card grid -->
   <div class="body">
-    <!-- Profil — full width -->
     <div class="card profil-card">
       <div class="card-label">Profil</div>
       <div class="profil-text">{{profile}}</div>
     </div>
 
-    <!-- Experience — 2 cols, 2 rows -->
     <div class="card exp-card">
-      <div class="card-label">Experience professionnelle</div>
+      <div class="card-label">Experiences</div>
       {{#experiences}}
       <div class="exp">
         <div class="exp-header">
@@ -202,26 +124,23 @@ body{background:#444;display:flex;justify-content:center;padding:30px;}
       {{/experiences}}
     </div>
 
-    <!-- Skills -->
     <div class="card skills-card">
       <div class="card-label">Competences</div>
-      {{#skills}}<div class="skill-item"><span class="skill-name">{{skill}}</span><div class="skill-bar-mini"><div class="skill-fill-mini" style="width:70%"></div></div></div>{{/skills}}
+      {{#skills}}<span class="skill-tag">{{skill}}</span>{{/skills}}
     </div>
 
-    <!-- Meta — Formation + Langues -->
     <div class="card meta-card">
-      <div class="card-label">Formation</div>
-      {{#education}}
-      <div class="edu-mini"><div class="edu-mini-degree">{{edu.degree}}</div><div class="edu-mini-school">{{edu.school}} — {{edu.year}}</div></div>
-      {{/education}}
-
-      <div class="card-label" style="margin-top:16px;">Langues</div>
-      {{#languages}}
-      <div class="lang-mini"><span class="lang-mini-name">{{lang.name}}</span><span class="lang-mini-level">{{lang.level}}</span></div>
-      {{/languages}}
-
-      <div class="interests-mini">
-        {{#interests}}{{interest}} · {{/interests}}
+      <div>
+        <div class="card-label">Formation</div>
+        {{#education}}<div class="edu-item"><div class="edu-degree">{{edu.degree}}</div><div class="edu-school">{{edu.school}} — {{edu.year}}</div></div>{{/education}}
+      </div>
+      <div>
+        <div class="card-label">Langues</div>
+        {{#languages}}<div class="lang"><span class="lang-name">{{lang.name}}</span><span class="lang-level">{{lang.level}}</span></div>{{/languages}}
+      </div>
+      <div>
+        <div class="card-label">Interets</div>
+        <div class="interests">{{#interests}}{{interest}} · {{/interests}}</div>
       </div>
     </div>
   </div>

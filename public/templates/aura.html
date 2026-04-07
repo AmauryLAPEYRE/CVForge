@@ -2,226 +2,98 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Aura — CV</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Overpass+Mono:wght@300;400;500&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-body{background:#333;display:flex;justify-content:center;padding:30px;}
 
 :root{--accent:#6b4c8a;}
 
 .page{
-  width:210mm;height:297mm;
-  background:#faf9f7;
+  width:210mm;height:297mm;background:#faf9f7;
   font-family:'Newsreader',serif;color:#1a1818;
   position:relative;overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.3);
 }
-@media print{body{background:#fff;padding:0;}.page{box-shadow:none;}@page{size:A4;margin:0;}}
+@media print{@page{size:A4;margin:0;}}
 
-/* THE CIRCLE — signature visual element */
-.circle-bg{
-  position:absolute;
-  top:-80px;right:-120px;
-  width:480px;height:480px;
-  border-radius:50%;
-  background:var(--accent);opacity:0.06;
-}
-.circle-ring{
-  position:absolute;
-  top:-60px;right:-100px;
-  width:440px;height:440px;
-  border-radius:50%;
-  border:1px solid var(--accent);opacity:0.08;
-}
+/* Circle — smaller */
+.circle-bg{position:absolute;top:-60px;right:-80px;width:320px;height:320px;border-radius:50%;background:var(--accent);opacity:0.05;}
+.circle-ring{position:absolute;top:-45px;right:-65px;width:290px;height:290px;border-radius:50%;border:1px solid var(--accent);opacity:0.06;}
 
-/* FRAME — thin border inside the page */
-.frame{
-  position:absolute;
-  top:24px;left:24px;right:24px;bottom:24px;
-  border:1px solid rgba(107,76,138,0.12);
-  pointer-events:none;z-index:5;
-}
+/* Frame */
+.frame{position:absolute;top:18px;left:18px;right:18px;bottom:18px;border:1px solid rgba(107,76,138,0.1);pointer-events:none;z-index:5;}
 
-/* PRENOM — top left, ultra light */
-.prenom{
-  position:absolute;top:44px;left:44px;
-  font-family:'Syne',sans-serif;font-size:64px;font-weight:200;
-  color:rgba(26,24,24,0.12);letter-spacing:6px;text-transform:uppercase;
-  z-index:1;line-height:1;
-}
+/* Ghost name — subtle */
+.prenom-ghost{position:absolute;top:32px;left:36px;font-family:'Syne',sans-serif;font-size:40px;font-weight:200;color:rgba(26,24,24,0.06);letter-spacing:4px;text-transform:uppercase;z-index:1;}
+.nom-ghost{position:absolute;bottom:28px;right:36px;font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:rgba(26,24,24,0.04);letter-spacing:3px;text-transform:uppercase;z-index:1;text-align:right;}
 
-/* NOM — bottom right, ultra bold */
-.nom{
-  position:absolute;bottom:40px;right:44px;
-  font-family:'Syne',sans-serif;font-size:72px;font-weight:800;
-  color:rgba(26,24,24,0.06);letter-spacing:4px;text-transform:uppercase;
-  z-index:1;line-height:1;text-align:right;
-}
+/* Header */
+.header{position:relative;z-index:10;padding:40px 36px 0;display:flex;justify-content:space-between;align-items:flex-start;}
 
-/* HEADER — floats in the upper zone */
-.header{
-  position:relative;z-index:10;
-  padding:52px 44px 0;
-  display:flex;justify-content:space-between;align-items:flex-start;
-}
-
-.identity{
-  padding-top:44px;
-}
-.identity-name{
-  font-family:'Syne',sans-serif;font-size:36px;font-weight:700;
-  color:#1a1818;letter-spacing:-0.5px;line-height:1;
-}
+.identity{padding-top:28px;}
+/* Nom — 26px */
+.identity-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;color:#1a1818;letter-spacing:-0.3px;line-height:1;}
 .identity-name span{color:var(--accent);font-weight:800;}
-.identity-role{
-  font-size:15px;font-weight:400;font-style:italic;
-  color:var(--accent);margin-top:10px;letter-spacing:0.5px;
-}
+/* Titre — 13px */
+.identity-role{font-size:13px;font-weight:400;font-style:italic;color:var(--accent);margin-top:8px;}
 
-.contact-float{
-  background:var(--accent);color:#fff;
-  padding:20px 24px;border-radius:10px;
-  position:relative;margin-top:10px;
-}
-.contact-float::before{
-  content:'';position:absolute;top:-6px;right:24px;
-  width:12px;height:12px;background:var(--accent);
-  transform:rotate(45deg);border-radius:2px;
-}
-.cf-item{
-  font-family:'Overpass Mono',monospace;
-  font-size:11px;line-height:2.2;font-weight:300;
-}
+/* Contact bulle */
+.contact-float{background:var(--accent);color:#fff;padding:16px 20px;border-radius:8px;position:relative;}
+.contact-float::before{content:'';position:absolute;top:-5px;right:20px;width:10px;height:10px;background:var(--accent);transform:rotate(45deg);border-radius:1px;}
+/* Contact — 11px */
+.cf-item{font-size:11px;line-height:2;font-weight:300;}
 .cf-item strong{font-weight:500;}
 
-/* PROFIL — centered, italic serif */
-.profil{
-  position:relative;z-index:10;
-  padding:28px 80px 0 44px;
-}
-.profil-label{
-  font-family:'Overpass Mono',monospace;font-size:8px;font-weight:500;
-  text-transform:uppercase;letter-spacing:4px;color:var(--accent);margin-bottom:10px;
-}
-.profil-text{
-  font-size:16px;font-style:italic;color:#555;line-height:2;font-weight:300;
-}
-.profil-text strong{color:#1a1818;font-weight:500;font-style:normal;}
+/* Profil */
+.profil{position:relative;z-index:10;padding:20px 36px 0;}
+/* Titre section — 14px */
+.s-label{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.s-label::after{content:'';flex:1;height:0.5px;background:var(--accent);opacity:0.15;}
+/* Profil — 12px */
+.profil-text{font-size:12px;color:#555;line-height:1.6;font-weight:300;}
+.profil-text strong{color:#1a1818;font-weight:500;}
 
-/* BODY — Z-layout: exp left, meta right, then swap */
-.body{
-  position:relative;z-index:10;
-  padding:24px 44px 0;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:auto auto;
-  gap:14px 28px;
-}
+/* Body Z grid */
+.body{position:relative;z-index:10;padding:16px 36px 0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr auto;gap:14px 24px;flex:1;}
 
-/* Section label */
-.s-label{
-  font-family:'Overpass Mono',monospace;font-size:8px;font-weight:500;
-  text-transform:uppercase;letter-spacing:4px;color:var(--accent);
-  margin-bottom:12px;display:flex;align-items:center;gap:8px;
-}
-.s-label::after{content:'';flex:1;height:0.5px;background:var(--accent);opacity:0.2;}
-
-/* Experience — top left */
+/* Experience */
 .exp-zone{grid-column:1;grid-row:1;}
-
-.exp{margin-bottom:18px;position:relative;}
-.exp-role{font-family:'Syne',sans-serif;font-size:17px;font-weight:600;color:#1a1818;}
-.exp-meta{font-size:12px;color:var(--accent);margin-top:2px;font-weight:400;}
+.exp{margin-bottom:12px;}
+/* Titre poste — 15px */
+.exp-role{font-family:'Syne',sans-serif;font-size:15px;font-weight:600;color:#1a1818;}
+.exp-meta{font-size:11px;color:var(--accent);margin-top:2px;font-weight:400;}
 .exp-meta span{color:#bbb;}
-.exp-tasks{list-style:none;margin-top:8px;}
-.exp-tasks li{
-  font-size:13px;color:#666;line-height:1.75;
-  padding-left:18px;position:relative;font-weight:300;font-style:normal;
-}
-.exp-tasks li::before{
-  content:'';position:absolute;left:2px;top:8px;
-  width:8px;height:8px;border-radius:50%;
-  border:1.5px solid var(--accent);opacity:0.3;
-}
+/* Tasks — 11px */
+.exp-tasks{list-style:none;margin-top:6px;}
+.exp-tasks li{font-size:11px;color:#666;line-height:1.5;padding-left:14px;position:relative;font-weight:300;}
+.exp-tasks li::before{content:'';position:absolute;left:2px;top:7px;width:6px;height:6px;border-radius:50%;border:1.5px solid var(--accent);opacity:0.25;}
 
-/* Skills — top right */
+/* Skills */
 .skills-zone{grid-column:2;grid-row:1;}
+.skill-tag{display:inline-block;font-size:11px;padding:4px 10px;margin:0 4px 5px 0;background:rgba(107,76,138,0.04);border:1px solid rgba(107,76,138,0.1);border-radius:4px;color:#444;font-weight:400;}
 
-.skill-row{
-  display:flex;align-items:center;gap:10px;
-  padding:9px 0;border-bottom:1px solid rgba(107,76,138,0.06);
-}
-.skill-row:last-child{border-bottom:none;}
-.skill-name{font-size:13px;font-style:normal;color:#444;font-weight:400;flex:1;}
-.skill-pips{display:flex;gap:3px;}
-.skill-pip{
-  width:18px;height:4px;border-radius:2px;
-  background:rgba(107,76,138,0.08);
-}
-.skill-pip.filled{background:var(--accent);}
-
-/* Formation — bottom left */
-.formation-zone{grid-column:2;grid-row:2;}
-
-.edu{
-  margin-bottom:14px;padding:14px 16px;
-  background:rgba(107,76,138,0.03);border-radius:6px;
-  border-left:3px solid var(--accent);
-}
-.edu-degree{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;color:#1a1818;font-style:normal;}
-.edu-school{font-size:11px;color:#aaa;margin-top:3px;font-weight:300;font-style:normal;}
-
-/* Langues + Interets — bottom right */
+/* Langues + Interets — bottom left */
 .meta-zone{grid-column:1;grid-row:2;}
+.lang-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(0,0,0,0.04);}
+.lang-name{color:#444;font-weight:400;}
+.lang-badge{font-size:9px;font-weight:600;color:#fff;background:var(--accent);padding:2px 8px;border-radius:8px;}
+.interest-flow{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;}
+.interest-pill{font-size:11px;padding:4px 10px;border-radius:14px;color:var(--accent);background:rgba(107,76,138,0.04);border:1px solid rgba(107,76,138,0.1);}
 
-.lang-row{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:6px 0;font-size:13px;
-  border-bottom:1px solid rgba(0,0,0,0.04);
-}
-.lang-name{color:#444;font-weight:400;font-style:normal;}
-.lang-badge{
-  font-family:'Overpass Mono',monospace;
-  font-size:9px;font-weight:500;color:#fff;
-  background:var(--accent);padding:3px 10px;border-radius:10px;
-}
-
-.interest-flow{
-  display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;
-}
-.interest-pill{
-  font-size:11px;padding:6px 14px;font-style:normal;
-  border-radius:20px;font-weight:400;
-  color:var(--accent);
-  background:rgba(107,76,138,0.05);
-  border:1px solid rgba(107,76,138,0.12);
-}
-
-/* Bottom signature line */
-.signature{
-  position:absolute;bottom:34px;left:44px;z-index:10;
-  display:flex;align-items:center;gap:10px;
-}
-.sig-line{width:40px;height:1px;background:var(--accent);opacity:0.3;}
-.sig-text{
-  font-family:'Overpass Mono',monospace;
-  font-size:7px;color:var(--accent);opacity:0.3;
-  letter-spacing:3px;text-transform:uppercase;
-}
+/* Formation — bottom right */
+.formation-zone{grid-column:2;grid-row:2;}
+.edu{margin-bottom:10px;padding:10px 14px;background:rgba(107,76,138,0.03);border-radius:6px;border-left:2px solid var(--accent);}
+.edu-degree{font-family:'Syne',sans-serif;font-size:12px;font-weight:600;color:#1a1818;}
+.edu-school{font-size:10px;color:#aaa;margin-top:2px;font-weight:300;}
 </style>
 </head>
 <body>
 <div class="page">
-  <!-- Background elements -->
   <div class="circle-bg"></div>
   <div class="circle-ring"></div>
   <div class="frame"></div>
-  <div class="prenom">{{firstName}}</div>
-  <div class="nom">{{lastName}}</div>
+  <div class="prenom-ghost">{{firstName}}</div>
+  <div class="nom-ghost">{{lastName}}</div>
 
-  <!-- HEADER -->
   <div class="header">
     <div class="identity">
       <div class="identity-name">{{firstName}} <span>{{lastName}}</span></div>
@@ -234,17 +106,14 @@ body{background:#333;display:flex;justify-content:center;padding:30px;}
     </div>
   </div>
 
-  <!-- PROFIL -->
   <div class="profil">
-    <div class="profil-label">Profil</div>
+    <div class="s-label">Profil</div>
     <p class="profil-text">{{profile}}</p>
   </div>
 
-  <!-- BODY — Z layout -->
   <div class="body">
-    <!-- Experience — top left -->
     <div class="exp-zone">
-      <div class="s-label">Experience</div>
+      <div class="s-label">Experiences</div>
       {{#experiences}}
       <div class="exp">
         <div class="exp-role">{{exp.title}}</div>
@@ -256,41 +125,23 @@ body{background:#333;display:flex;justify-content:center;padding:30px;}
       {{/experiences}}
     </div>
 
-    <!-- Skills — top right -->
     <div class="skills-zone">
       <div class="s-label">Competences</div>
-      {{#skills}}
-      <div class="skill-row"><span class="skill-name">{{skill}}</span><div class="skill-pips"><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip filled"></div><div class="skill-pip"></div></div></div>
-      {{/skills}}
+      {{#skills}}<span class="skill-tag">{{skill}}</span>{{/skills}}
     </div>
 
-    <!-- Langues + Interets — bottom left -->
     <div class="meta-zone">
       <div class="s-label">Langues</div>
-      {{#languages}}
-      <div class="lang-row"><span class="lang-name">{{lang.name}}</span><span class="lang-badge">{{lang.level}}</span></div>
-      {{/languages}}
+      {{#languages}}<div class="lang-row"><span class="lang-name">{{lang.name}}</span><span class="lang-badge">{{lang.level}}</span></div>{{/languages}}
       <div class="interest-flow">
         {{#interests}}<span class="interest-pill">{{interest}}</span>{{/interests}}
       </div>
     </div>
 
-    <!-- Formation — bottom right -->
     <div class="formation-zone">
       <div class="s-label">Formation</div>
-      {{#education}}
-      <div class="edu">
-        <div class="edu-degree">{{edu.degree}}</div>
-        <div class="edu-school">{{edu.school}} — {{edu.year}}</div>
-      </div>
-      {{/education}}
+      {{#education}}<div class="edu"><div class="edu-degree">{{edu.degree}}</div><div class="edu-school">{{edu.school}} — {{edu.year}}</div></div>{{/education}}
     </div>
-  </div>
-
-  <!-- Signature -->
-  <div class="signature">
-    <div class="sig-line"></div>
-    <div class="sig-text">Genere par CVForge</div>
   </div>
 </div>
 </body>

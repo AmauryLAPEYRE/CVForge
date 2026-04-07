@@ -69,9 +69,11 @@ export default function AdaptModal({ onClose, onAdapted, onSubmit, isAdapting }:
       clearInterval(factTimer);
       setProgress(0);
       if (err instanceof Error && err.message.includes("not_a_job_offer")) {
-        setValidationError(err.message.replace("not_a_job_offer:", "").trim() || "Le contenu colle ne semble pas etre une offre d'emploi. Collez le texte ou l'URL d'une vraie annonce.");
+        setValidationError(err.message.replace("not_a_job_offer:", "").trim() || "Le contenu ne semble pas etre une offre d'emploi.");
+      } else if (err instanceof Error && err.message.includes("url_fetch_failed")) {
+        setValidationError(err.message.replace("url_fetch_failed:", "").trim() || "Impossible de lire cette URL. Copiez-collez le texte de l'offre directement.");
       } else {
-        setValidationError("Une erreur est survenue. Reessayez.");
+        setValidationError("Une erreur est survenue. Reessayez ou collez le texte de l'offre directement.");
       }
     }
   }

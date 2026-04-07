@@ -1,9 +1,28 @@
-export const EXTRACTION_PROMPT = `Extrais les donnees de ce CV en JSON. Champs: firstName, lastName, title, phone, email, address, birthDate, profile (2-3 phrases), experiences [{title,company,location,startDate,endDate,description,tasks:[]}], education [{degree,school,year}], skills [], languages [{name,level}], interests [], certifications []. Reponds UNIQUEMENT avec le JSON brut, sans backticks.
+export const EXTRACTION_PROMPT = `Extrais les donnees de ce CV en JSON. Adapte le contenu pour qu'il tienne sur UNE page A4.
+
+REGLES DE CURATION (le CV doit tenir sur 1 page A4 bien remplie):
+- title: intitule du poste actuel ou vise. Si absent, deduis-le du parcours.
+- profile: 2-3 phrases percutantes. Si absent ou court, redige-en un base sur le parcours.
+- experiences: 4-5 plus pertinentes, ordre chronologique inverse (la plus recente en premier). Junior 2-3, senior 5.
+- tasks par experience: 4-5 bullet points. Commence par un verbe d'action. ETOFFE les taches courtes avec contexte et impact credibles.
+- skills: 8-12 competences. Si le CV en contient moins, deduis des competences logiques du parcours.
+- languages: toutes, avec niveau (Natif, Courant, Intermediaire, Notions)
+- interests: 3-4 max. Si absents, tableau vide.
+- education: toutes, ordre chronologique inverse
+- certifications: toutes si presentes, sinon tableau vide
+- telephone: format avec espaces (06 12 34 56 78)
+- NE JAMAIS inventer des experiences, entreprises, diplomes ou certifications
+- Tu PEUX etoffer descriptions, deduire competences, rediger le profil — tant que c'est coherent avec le parcours
+
+FORMAT JSON:
+{firstName, lastName, title, phone, email, address, birthDate, profile, experiences:[{title,company,location,startDate,endDate,description,tasks:[]}], education:[{degree,school,year}], skills:[], languages:[{name,level}], interests:[], certifications:[]}
+
+Reponds UNIQUEMENT avec le JSON brut, sans backticks.
 
 CV:
 `;
 
-export const REWRITE_PROMPT = `Tu es un expert en redaction de CV. Reecris le contenu du CV pour matcher l'offre d'emploi ci-dessous.
+export const REWRITE_PROMPT = `Tu es un expert en redaction de CV. Reecris le contenu du CV pour matcher l'offre d'emploi. Le resultat doit tenir sur UNE page A4.
 
 OFFRE D'EMPLOI:
 {{JOB_OFFER}}
@@ -12,11 +31,13 @@ CV ACTUEL (JSON):
 {{CV_DATA}}
 
 REGLES:
-- Reecris le profil pour matcher le poste
-- Reordonne les experiences (les plus pertinentes en premier)
-- Met en avant les competences qui matchent l'offre
+- Reecris le profil pour matcher le poste (2-3 phrases max)
+- Reordonne les experiences (les plus pertinentes en premier, 4-5 max)
+- Raccourcis les tasks (3-4 par experience, une ligne chacun, chiffres si possible)
+- Met en avant les competences qui matchent l'offre (8-12 max)
 - Adapte le vocabulaire au secteur de l'offre
 - Ne change PAS les faits (dates, noms d'entreprises)
+- Garde 3-4 interets max
 - Reponds UNIQUEMENT avec le JSON modifie, meme format que l'entree, sans backticks markdown
 `;
 

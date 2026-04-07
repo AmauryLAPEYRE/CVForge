@@ -15,16 +15,19 @@ import AdaptModal from "./AdaptModal";
 // Inject CSS to remove scrollbars and margins inside iframe
 function prepareForPreview(html: string, isGenerated = false): string {
   if (!html) return html;
-  const watermark = isGenerated ? "" : `
+  const protection = isGenerated ? "" : `
     body::before{
-      content:'APERCU CVFORGE';position:fixed;top:50%;left:50%;
+      content:'APERCU';position:fixed;top:50%;left:50%;
       transform:translate(-50%,-50%) rotate(-35deg);
-      font-size:60px;font-weight:900;letter-spacing:16px;
-      color:rgba(150,150,150,0.15);pointer-events:none;z-index:9999;
+      font-size:48px;font-weight:900;letter-spacing:20px;
+      color:rgba(150,150,150,0.06);pointer-events:none;z-index:9999;
       font-family:sans-serif;white-space:nowrap;
     }
+    p, li, ul, ol {
+      filter: blur(2.5px) !important;
+    }
   `;
-  const injectCSS = `<style>html,body{margin:0!important;padding:0!important;overflow:hidden!important;}::-webkit-scrollbar{display:none!important;}${watermark}</style>`;
+  const injectCSS = `<style>html,body{margin:0!important;padding:0!important;overflow:hidden!important;}::-webkit-scrollbar{display:none!important;}${protection}</style>`;
   if (html.includes("<head>")) {
     return html.replace("<head>", `<head>${injectCSS}`);
   }
@@ -90,7 +93,7 @@ export default function StepChoisissez() {
   const { state, dispatch } = useCVStore();
   const [activeStyle, setActiveStyle] = useState(0);
   const [selectedColor, setSelectedColor] = useState(STYLE_DIRECTIONS[0].defaultColor);
-  const [templateHtmls, setTemplateHtmls] = useState<Map<number, string>>(new Map());
+  const [rawTemplates, setRawTemplates] = useState<Map<number, string>>(new Map());
   const [isGenerating, setIsGenerating] = useState(false);
   const adaptTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
   const [error, setError] = useState("");
@@ -162,8 +165,18 @@ export default function StepChoisissez() {
     }
   }, []);
 
-  // Handle download — paywall or direct
-  function handleDownloadClick() {
+  // Handle download — generate CV then paywall or direct download
+  async function handleDownloadClick() {
+    // Generate the CV first if not already done
+    if (!generatedCV && cvData) {
+      setIsGenerating(true);
+      try {
+        const cv = await generateOne(cvData, activeStyle, selectedColor);
+        dispatch({ type: "ADD_GENERATED_CVS", cvs: [cv] });
+      } catch { /* continue to paywall anyway */ }
+      setIsGenerating(false);
+    }
+
     if (isSubscriber) {
       handleDownload();
     } else {
@@ -201,11 +214,7 @@ export default function StepChoisissez() {
       fetch(`/templates/${s.templateFile}`)
         .then((r) => r.text())
         .then((rawHtml) => {
-          // If template has markers, render with example data
-          const html = rawHtml.includes("{{firstName}}")
-            ? renderTemplate(rawHtml, EXAMPLE_CV, s.defaultColor)
-            : rawHtml;
-          setTemplateHtmls((prev) => new Map(prev).set(idx, html));
+          setRawTemplates((prev) => new Map(prev).set(idx, rawHtml));
         })
         .catch(() => {});
     });
@@ -222,9 +231,14 @@ export default function StepChoisissez() {
   const selectedBg = selectedColorOption?.bg;
   const defaultBg = style.colors[0]?.bg;
 
-  // Base HTML — only changes when switching template or generating, NOT on color change
-  const rawHtml = generatedCV?.html || templateHtmls.get(activeStyle) || "";
-  const baseHtml = prepareForPreview(rawHtml, !!generatedCV);
+  // Render template with user's real data (or example data as fallback)
+  const rawTemplate = rawTemplates.get(activeStyle) || "";
+  const renderedHtml = generatedCV?.html || (
+    rawTemplate.includes("{{firstName}}")
+      ? renderTemplate(rawTemplate, cvData || EXAMPLE_CV, selectedColor)
+      : rawTemplate
+  );
+  const baseHtml = prepareForPreview(renderedHtml, !!generatedCV);
 
   // Apply color changes directly in iframe DOM (no reload)
   useEffect(() => {
@@ -466,7 +480,20 @@ export default function StepChoisissez() {
               background: "rgba(0,0,0,0.6)", backdropFilter: "blur(8px)",
               fontSize: 10, color: "rgba(255,255,255,0.7)", fontWeight: 500,
             }}>
-              Apercu template
+              {jobOffer ? "Adapte a l'offre" : "Apercu avec vos donnees"}
+            </div>
+          )}
+
+          {/* Adapted badge */}
+          {jobOffer && !generatedCV && (
+            <div style={{
+              position: "absolute", top: 12, left: 12,
+              padding: "4px 10px", borderRadius: 6,
+              background: "rgba(201,165,90,0.15)", border: "1px solid rgba(201,165,90,0.25)",
+              backdropFilter: "blur(8px)",
+              fontSize: 10, color: "var(--color-acc)", fontWeight: 600,
+            }}>
+              CV adapte
             </div>
           )}
 
@@ -659,36 +686,18 @@ export default function StepChoisissez() {
           padding: 16, borderTop: "1px solid var(--color-brd)", flexShrink: 0,
           display: "flex", flexDirection: "column", gap: 8,
         }}>
-          {!generatedCV ? (
-            <button
-              onClick={handleGenerate}
-              disabled={isGenerating}
-              style={{
-                width: "100%", padding: "12px 16px",
-                background: isGenerating ? "var(--color-bg-up)" : "var(--color-acc)",
-                color: isGenerating ? "var(--color-tx3)" : "var(--color-bg)",
-                border: "none", borderRadius: 10, fontSize: 13, fontWeight: 600,
-                cursor: isGenerating ? "not-allowed" : "pointer",
-                fontFamily: "Syne, sans-serif", letterSpacing: 0.5,
-                transition: "all 0.2s",
-              }}
-            >
-              {isGenerating ? "Generation..." : "Generer ce style"}
-            </button>
-          ) : (
-            <button
+          <button
               onClick={handleDownloadClick}
               style={{
-                width: "100%", padding: "12px 16px",
+                width: "100%", padding: "14px 16px",
                 background: "var(--color-acc)", color: "var(--color-bg)",
-                border: "none", borderRadius: 10, fontSize: 13, fontWeight: 600,
+                border: "none", borderRadius: 10, fontSize: 14, fontWeight: 600,
                 cursor: "pointer", fontFamily: "Syne, sans-serif", letterSpacing: 0.5,
                 transition: "all 0.2s",
               }}
             >
-              {isSubscriber ? "Telecharger PDF" : "Telecharger — 0.99€"}
+              Telecharger votre CV
             </button>
-          )}
 
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
@@ -722,6 +731,9 @@ export default function StepChoisissez() {
               dispatch({ type: "SET_ADAPTING", value: false });
               if (err.error === "not_a_job_offer") {
                 throw new Error(`not_a_job_offer: ${err.reason}`);
+              }
+              if (err.error === "url_fetch_failed") {
+                throw new Error(`url_fetch_failed: ${err.reason}`);
               }
               throw new Error(err.error || "Adaptation failed");
             }

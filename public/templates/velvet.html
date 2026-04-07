@@ -9,7 +9,16 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 body{background:#222;display:flex;justify-content:center;padding:30px;}
 
-:root{--accent:#a08050;--accent-light:#c4a97a;--bg:#18171a;--bg2:#1f1e22;--tx:#e4dfd6;--tx2:#8a857c;--tx3:#4a4740;}
+:root{
+  --accent:#a08050;
+  --accent-dim:rgba(160,128,80,0.6);
+  --bg:#18171a;
+  --bg2:#1f1e22;
+  --bg3:#252328;
+  --tx:#e4dfd6;
+  --tx2:#8a857c;
+  --tx3:#4a4740;
+}
 
 .page{
   width:210mm;height:297mm;
@@ -17,10 +26,11 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
   font-family:'Raleway',sans-serif;
   position:relative;overflow:hidden;
   box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  display:flex;flex-direction:column;
 }
 @media print{body{background:#000;padding:0;}.page{box-shadow:none;}@page{size:A4;margin:0;}}
 
-/* Golden frame — the ecrin */
+/* Golden frame */
 .frame-outer{
   position:absolute;top:16px;left:16px;right:16px;bottom:16px;
   border:0.5px solid rgba(160,128,80,0.15);
@@ -28,7 +38,7 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
 }
 .frame-inner{
   position:absolute;top:20px;left:20px;right:20px;bottom:20px;
-  border:1px solid rgba(160,128,80,0.1);
+  border:1px solid rgba(160,128,80,0.08);
   pointer-events:none;z-index:5;
 }
 /* Corner ornaments */
@@ -39,66 +49,62 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
 .corner-bl{bottom:16px;left:16px;}.corner-bl::before{bottom:0;left:0;width:20px;height:1px;}.corner-bl::after{bottom:0;left:0;width:1px;height:20px;}
 .corner-br{bottom:16px;right:16px;}.corner-br::before{bottom:0;right:0;width:20px;height:1px;}.corner-br::after{bottom:0;right:0;width:1px;height:20px;}
 
-/* HEADER — centered, like an engraving */
+/* HEADER — centered */
 .header{
-  text-align:center;padding:52px 60px 0;position:relative;z-index:10;
-}
-.header-pre{
-  font-size:9px;font-weight:400;letter-spacing:6px;text-transform:uppercase;
-  color:var(--accent);margin-bottom:14px;
+  text-align:center;padding:44px 60px 0;position:relative;z-index:10;
+  flex-shrink:0;
 }
 .header-name{
   font-family:'Cormorant Garamond',serif;
-  font-size:52px;font-weight:300;letter-spacing:4px;
-  color:var(--tx);line-height:1;
+  font-size:30px;font-weight:300;letter-spacing:3px;
+  color:var(--tx);line-height:1.1;
 }
-.header-name strong{font-weight:700;color:var(--accent-light);}
+.header-name strong{font-weight:700;color:var(--accent);}
 .header-role{
-  font-size:14px;font-weight:200;letter-spacing:5px;text-transform:uppercase;
-  color:var(--tx2);margin-top:14px;
+  font-size:11px;font-weight:300;letter-spacing:4px;text-transform:uppercase;
+  color:var(--tx2);margin-top:10px;
 }
 
 /* Decorative divider */
 .divider-ornament{
   display:flex;align-items:center;justify-content:center;
-  gap:12px;margin:22px auto;width:200px;
+  gap:12px;margin:16px auto;width:180px;
 }
-.div-line{flex:1;height:0.5px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.3;}
-.div-diamond{width:6px;height:6px;background:var(--accent);transform:rotate(45deg);opacity:0.4;}
+.div-line{flex:1;height:0.5px;background:var(--accent);opacity:0.2;}
+.div-diamond{width:5px;height:5px;background:var(--accent);transform:rotate(45deg);opacity:0.4;}
 
 /* Contact — horizontal, centered */
 .contact-row{
-  display:flex;justify-content:center;gap:28px;
-  margin-bottom:28px;
+  display:flex;justify-content:center;gap:24px;
+  margin-bottom:20px;flex-shrink:0;
 }
 .contact-item{
-  font-size:11px;color:var(--tx2);font-weight:300;
-  display:flex;align-items:center;gap:6px;
+  font-size:10px;color:var(--tx2);font-weight:300;
+  display:flex;align-items:center;gap:5px;
 }
-.contact-item svg{width:11px;height:11px;fill:none;stroke:var(--accent);stroke-width:1.2;opacity:0.5;}
+.contact-item svg{width:10px;height:10px;fill:none;stroke:var(--accent);stroke-width:1.2;opacity:0.5;}
 
-/* BODY — two symmetric panels like an open book */
+/* BODY — two symmetric panels */
 .body{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:0;margin:0 36px;flex:1;
+  flex:1;display:grid;grid-template-columns:1fr 1fr;
+  gap:0;margin:0 36px;
   position:relative;z-index:10;
+  min-height:0;
 }
-/* Center spine */
+/* Center spine — same color fade */
 .body::before{
   content:'';position:absolute;
-  top:0;bottom:40px;left:50%;width:1px;
-  background:linear-gradient(180deg,var(--accent),rgba(160,128,80,0.05));
-  opacity:0.15;
+  top:0;bottom:36px;left:50%;width:1px;
+  background:var(--accent);
+  opacity:0.08;
 }
 
-.panel{padding:0 28px;}
-.panel-left{border-right:none;}
-.panel-right{border-left:none;}
+.panel{padding:0 24px;}
 
 /* Section labels */
 .s-label{
-  font-size:8px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
-  color:var(--accent);margin-bottom:14px;
+  font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px;
   display:flex;align-items:center;gap:8px;
 }
 .s-label::after{content:'';flex:1;height:0.5px;background:var(--accent);opacity:0.12;}
@@ -106,76 +112,68 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
 /* Profil */
 .profil{
   font-family:'Cormorant Garamond',serif;
-  font-size:15px;font-style:italic;color:var(--tx2);
-  line-height:2;font-weight:300;margin-bottom:26px;
+  font-size:14px;font-style:italic;color:var(--tx2);
+  line-height:1.6;font-weight:300;margin-bottom:20px;
 }
 .profil strong{color:var(--tx);font-weight:500;font-style:normal;}
 
-/* Experience */
-.exp{margin-bottom:22px;}
+/* Experience — left panel, flex:1 */
+.exp-section{display:flex;flex-direction:column;flex:1;}
+
+.exp{margin-bottom:18px;}
 .exp-role{
-  font-family:'Cormorant Garamond',serif;
-  font-size:19px;font-weight:600;color:var(--tx);letter-spacing:0.3px;
+  font-size:15px;font-weight:700;color:var(--tx);
 }
 .exp-meta{
-  font-size:11px;color:var(--accent);font-weight:400;margin-top:3px;
+  font-size:10px;color:var(--accent);font-weight:400;margin-top:3px;
 }
 .exp-meta span{color:var(--tx3);}
-.exp-tasks{list-style:none;margin-top:10px;}
+.exp-tasks{list-style:none;margin-top:8px;}
 .exp-tasks li{
-  font-size:13px;color:var(--tx2);line-height:1.8;
-  padding-left:14px;position:relative;font-weight:300;
+  font-size:11px;color:var(--tx2);line-height:1.6;
+  padding-left:12px;position:relative;font-weight:300;
 }
 .exp-tasks li::before{
-  content:'';position:absolute;left:2px;top:10px;
+  content:'';position:absolute;left:2px;top:8px;
   width:4px;height:4px;border-radius:50%;
   background:var(--accent);opacity:0.3;
 }
 
-/* Skills — elegant list with dots */
-.skill-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:8px 0;border-bottom:0.5px solid rgba(160,128,80,0.06);
+/* Skills as tags */
+.skill-cloud{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px;}
+.skill-tag{
+  font-size:11px;padding:4px 10px;font-weight:400;
+  border:0.5px solid rgba(160,128,80,0.25);border-radius:3px;
+  color:var(--tx2);background:rgba(160,128,80,0.05);
 }
-.skill-row:last-child{border-bottom:none;}
-.skill-name{font-size:13px;color:var(--tx);font-weight:300;}
-.skill-dots{display:flex;gap:4px;}
-.skill-dot{width:7px;height:7px;border-radius:50%;border:1px solid rgba(160,128,80,0.2);}
-.skill-dot.filled{background:var(--accent);border-color:var(--accent);}
 
 /* Education */
-.edu{margin-bottom:14px;}
+.edu{margin-bottom:12px;}
 .edu-degree{
-  font-family:'Cormorant Garamond',serif;
-  font-size:16px;font-weight:600;color:var(--tx);
+  font-size:14px;font-weight:700;color:var(--tx);
 }
 .edu-school{font-size:11px;color:var(--tx3);margin-top:2px;font-weight:300;}
 
-/* Languages */
+/* Languages — plain text */
 .lang-row{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:6px 0;font-size:13px;
-}
-.lang-name{color:var(--tx);font-weight:300;}
-.lang-level{
-  font-size:9px;letter-spacing:2px;text-transform:uppercase;
-  color:var(--accent);font-weight:400;
+  font-size:11px;color:var(--tx2);font-weight:300;
+  line-height:1.6;margin-bottom:4px;
 }
 
 /* Interests */
-.interests{
-  display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;
+.interests-wrap{
+  display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:12px;
 }
 .interest{
-  font-size:10px;padding:5px 12px;
-  border:0.5px solid rgba(160,128,80,0.15);border-radius:3px;
+  font-size:11px;padding:4px 10px;
+  border:0.5px solid rgba(160,128,80,0.12);border-radius:3px;
   color:var(--tx2);font-weight:300;
   background:rgba(160,128,80,0.03);
 }
 
-/* Footer signature */
+/* Footer */
 .footer{
-  position:absolute;bottom:26px;left:0;right:0;z-index:10;
+  position:absolute;bottom:22px;left:0;right:0;z-index:10;
   text-align:center;
 }
 .footer-text{
@@ -196,7 +194,6 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
 
   <!-- HEADER -->
   <div class="header">
-    <div class="header-pre">Curriculum Vitae</div>
     <div class="header-name">{{firstName}} <strong>{{lastName}}</strong></div>
     <div class="header-role">{{title}}</div>
   </div>
@@ -217,53 +214,53 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
   <!-- BODY — two panels -->
   <div class="body">
     <!-- LEFT PANEL -->
-    <div class="panel panel-left">
+    <div class="panel">
       <div class="s-label">Profil</div>
       <p class="profil">{{profile}}</p>
 
-      <div class="s-label">Experience</div>
-      {{#experiences}}
-      <div class="exp">
-        <div class="exp-role">{{exp.title}}</div>
-        <div class="exp-meta">{{exp.company}} <span>·</span> {{exp.location}} <span>·</span> {{exp.startDate}} — {{exp.endDate}}</div>
-        <ul class="exp-tasks">
-          {{#exp.tasks}}<li>{{task}}</li>{{/exp.tasks}}
-        </ul>
+      <div class="s-label">Expérience</div>
+      <div class="exp-section">
+        {{#experiences}}
+        <div class="exp">
+          <div class="exp-role">{{exp.title}}</div>
+          <div class="exp-meta">{{exp.company}} <span>·</span> {{exp.location}} <span>·</span> {{exp.startDate}} — {{exp.endDate}}</div>
+          <ul class="exp-tasks">
+            {{#exp.tasks}}<li>{{task}}</li>{{/exp.tasks}}
+          </ul>
+        </div>
+        {{/experiences}}
       </div>
-      {{/experiences}}
     </div>
 
     <!-- RIGHT PANEL -->
-    <div class="panel panel-right">
-      <div class="s-label">Competences</div>
-      {{#skills}}
-      <div class="skill-row"><span class="skill-name">{{skill}}</span><div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div></div>
-      {{/skills}}
+    <div class="panel" style="display:flex;flex-direction:column;">
+      <div class="s-label">Compétences</div>
+      <div class="skill-cloud">
+        {{#skills}}<span class="skill-tag">{{skill}}</span>{{/skills}}
+      </div>
 
-      <div style="margin-top:24px;">
+      <div style="margin-top:4px;">
         <div class="s-label">Formation</div>
         {{#education}}
         <div class="edu"><div class="edu-degree">{{edu.degree}}</div><div class="edu-school">{{edu.school}} — {{edu.year}}</div></div>
         {{/education}}
       </div>
 
-      <div style="margin-top:24px;">
+      <div style="margin-top:16px;">
         <div class="s-label">Langues</div>
-        {{#languages}}
-        <div class="lang-row"><span class="lang-name">{{lang.name}}</span><span class="lang-level">{{lang.level}}</span></div>
-        {{/languages}}
+        {{#languages}}<div class="lang-row">{{lang.name}} — {{lang.level}}</div>{{/languages}}
       </div>
 
-      <div style="margin-top:24px;">
-        <div class="s-label">Centres d'interet</div>
-        <div class="interests">
+      <div style="margin-top:auto;padding-top:16px;">
+        <div class="s-label">Centres d'intérêt</div>
+        <div class="interests-wrap">
           {{#interests}}<span class="interest">{{interest}}</span>{{/interests}}
         </div>
       </div>
     </div>
   </div>
 
-  <div class="footer"><div class="footer-text">Genere par CVForge</div></div>
+  <div class="footer"><div class="footer-text">Généré par CVForge</div></div>
 </div>
 </body>
 </html>

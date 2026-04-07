@@ -1,20 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function Welcome({ onEnter }: { onEnter: () => void }) {
-  const [visible, setVisible] = useState(true);
   const [exiting, setExiting] = useState(false);
-
-  useEffect(() => {
-    // Auto-dismiss hint after a delay
-    const t = setTimeout(() => {}, 10000);
-    return () => clearTimeout(t);
-  }, []);
+  const [visible, setVisible] = useState(true);
 
   const handleEnter = () => {
     setExiting(true);
-    setTimeout(() => { setVisible(false); onEnter(); }, 600);
+    setTimeout(() => { setVisible(false); onEnter(); }, 700);
   };
 
   if (!visible) return null;
@@ -29,124 +23,105 @@ export default function Welcome({ onEnter }: { onEnter: () => void }) {
         alignItems: "center", justifyContent: "center",
         cursor: "pointer",
         opacity: exiting ? 0 : 1,
-        transition: "opacity 0.6s ease",
+        transform: exiting ? "scale(1.02)" : "scale(1)",
+        transition: "all 0.7s cubic-bezier(0.16, 1, 0.3, 1)",
         overflow: "hidden",
       }}
     >
       <style>{`
-        @keyframes welcomeFadeUp {
-          from { opacity: 0; transform: translateY(20px); }
+        @keyframes wFade {
+          from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes welcomePulse {
-          0%, 100% { opacity: 0.4; }
-          50% { opacity: 1; }
+        @keyframes wGlow {
+          0%, 100% { opacity: 0.04; }
+          50% { opacity: 0.1; }
         }
-        @keyframes welcomeGlow {
-          0%, 100% { opacity: 0.03; }
-          50% { opacity: 0.08; }
+        @keyframes steam {
+          0% { transform: translateY(0) scaleX(0.8); opacity: 0; }
+          10% { opacity: 0.6; }
+          40% { transform: translateY(-14px) scaleX(1.2); opacity: 0.4; }
+          70% { transform: translateY(-28px) scaleX(0.6); opacity: 0.15; }
+          100% { transform: translateY(-38px) scaleX(0.4); opacity: 0; }
+        }
+        @keyframes cupFloat {
+          0%, 100% { transform: translateY(0) rotate(-1deg); }
+          50% { transform: translateY(-4px) rotate(1deg); }
         }
       `}</style>
 
       {/* Ambient glow */}
       <div style={{
-        position: "absolute", top: "30%", left: "50%", transform: "translate(-50%, -50%)",
-        width: 600, height: 400, borderRadius: "50%",
-        background: "radial-gradient(ellipse, var(--color-acc-gs), transparent 70%)",
-        animation: "welcomeGlow 4s ease-in-out infinite",
-        pointerEvents: "none",
+        position: "absolute", top: "35%", left: "50%", transform: "translate(-50%, -50%)",
+        width: 500, height: 350, borderRadius: "50%",
+        background: "radial-gradient(ellipse, var(--color-acc), transparent 70%)",
+        animation: "wGlow 5s ease-in-out infinite",
+        pointerEvents: "none", filter: "blur(60px)",
       }} />
 
-      {/* Logo */}
+      {/* Line 1 — with animated coffee emoji inline */}
       <div style={{
-        animation: "welcomeFadeUp 0.8s ease both",
-        display: "flex", alignItems: "center", gap: 14, marginBottom: 32,
+        fontFamily: "Syne, sans-serif", fontSize: 52, fontWeight: 800,
+        textAlign: "center", letterSpacing: -1.5, lineHeight: 1.3,
+        animation: "wFade 0.8s ease 0.4s both",
       }}>
-        <div style={{
-          width: 44, height: 44, background: "var(--color-acc)", borderRadius: 11,
-          display: "grid", placeItems: "center",
-          fontFamily: "Syne, sans-serif", fontWeight: 800, fontSize: 24,
-          color: "var(--color-bg)",
-        }}>C</div>
-        <div style={{
-          fontFamily: "Syne, sans-serif", fontWeight: 700, fontSize: 32,
-          letterSpacing: -0.5,
-        }}>
-          CV<span style={{ color: "var(--color-acc)" }}>Forge</span>
-        </div>
+        Votre{" "}
+        <span style={{ display: "inline-block", position: "relative", animation: "cupFloat 3s ease-in-out infinite", fontSize: 48 }}>
+          ☕
+          {[0, 1, 2].map((i) => (
+            <span key={i} style={{
+              position: "absolute",
+              top: -4, left: 10 + i * 9,
+              width: 3, height: 18,
+              borderRadius: 6,
+              background: "rgba(255,255,255,0.5)",
+              filter: "blur(2px)",
+              opacity: 0,
+              animation: `steam 3s ease-out ${i * 0.7}s infinite`,
+            }} />
+          ))}
+        </span>
+        {" "}coute plus cher
       </div>
 
-      {/* Headline */}
-      <h1 style={{
-        fontFamily: "Syne, sans-serif", fontSize: 48, fontWeight: 800,
-        textAlign: "center", lineHeight: 1.15, letterSpacing: -1,
-        maxWidth: 600, marginBottom: 16,
-        animation: "welcomeFadeUp 0.8s ease 0.15s both",
+      {/* Line 2 — gold gradient */}
+      <div style={{
+        fontFamily: "Syne, sans-serif", fontSize: 52, fontWeight: 800,
+        textAlign: "center", letterSpacing: -1.5, lineHeight: 1.1,
+        background: "linear-gradient(135deg, var(--color-acc), #e8cf8a)",
+        WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+        marginBottom: 24,
+        animation: "wFade 0.8s ease 0.8s both",
       }}>
-        Votre CV professionnel
-        <br />
-        <span style={{
-          background: "linear-gradient(135deg, var(--color-acc), #e8cf8a)",
-          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-        }}>en moins d'une minute</span>
-      </h1>
+        que votre prochain entretien.
+      </div>
 
       {/* Subtitle */}
-      <p style={{
+      <div style={{
         fontSize: 17, color: "var(--color-tx2)", textAlign: "center",
-        maxWidth: 480, lineHeight: 1.7, fontWeight: 300,
-        marginBottom: 40,
-        animation: "welcomeFadeUp 0.8s ease 0.3s both",
+        fontWeight: 300, lineHeight: 1.6,
+        animation: "wFade 0.8s ease 1s both",
       }}>
-        Importez votre CV, choisissez un design premium,
-        et adaptez-le a l'offre d'emploi.
-        <strong style={{ color: "var(--color-tx)", fontWeight: 500 }}> A partir de 0.99€</strong>
-      </p>
+        Et si votre prochain entretien dependait d'un seul CV ?
+      </div>
 
-      {/* CTA */}
-      <button
+      {/* CTA — minimal, just text with arrow */}
+      <div
         onClick={(e) => { e.stopPropagation(); handleEnter(); }}
         style={{
-          padding: "16px 40px", borderRadius: 14,
-          background: "var(--color-acc)", color: "var(--color-bg)",
-          border: "none", cursor: "pointer",
-          fontFamily: "Syne, sans-serif", fontSize: 16, fontWeight: 700,
-          letterSpacing: 0.5,
-          animation: "welcomeFadeUp 0.8s ease 0.45s both",
-          transition: "all 0.2s",
-          boxShadow: "0 8px 32px var(--color-acc-gs)",
+          marginTop: 48,
+          fontSize: 15, fontWeight: 500, color: "var(--color-acc)",
+          display: "flex", alignItems: "center", gap: 8,
+          animation: "wFade 0.8s ease 1.4s both",
+          transition: "gap 0.2s",
         }}
-        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget as HTMLElement).style.boxShadow = "0 12px 40px var(--color-acc-gs)"; }}
-        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = ""; (e.currentTarget as HTMLElement).style.boxShadow = "0 8px 32px var(--color-acc-gs)"; }}
+        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.gap = "14px"; }}
+        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.gap = "8px"; }}
       >
-        Creer mon CV →
-      </button>
-
-      {/* Stats row */}
-      <div style={{
-        display: "flex", gap: 48, marginTop: 48,
-        animation: "welcomeFadeUp 0.8s ease 0.6s both",
-      }}>
-        {[
-          { val: "< 60s", label: "Generation" },
-          { val: "11", label: "Templates" },
-          { val: "0.99€", label: "Par CV" },
-        ].map((s) => (
-          <div key={s.label} style={{ textAlign: "center" }}>
-            <div style={{ fontFamily: "Syne, sans-serif", fontSize: 22, fontWeight: 700, color: "var(--color-acc)" }}>{s.val}</div>
-            <div style={{ fontSize: 12, color: "var(--color-tx3)", marginTop: 4 }}>{s.label}</div>
-          </div>
-        ))}
+        Commencer
+        <span style={{ fontSize: 20 }}>→</span>
       </div>
 
-      {/* Bottom hint */}
-      <div style={{
-        position: "absolute", bottom: 32,
-        fontSize: 13, color: "var(--color-tx3)",
-        animation: "welcomePulse 3s ease-in-out infinite",
-      }}>
-        Cliquez n'importe ou pour commencer
-      </div>
     </div>
   );
 }

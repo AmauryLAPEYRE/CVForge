@@ -2,12 +2,9 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Atlantic — CV</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Outfit:wght@200;300;400;500;600;700&display=swap');
-
 *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-body{background:#222;display:flex;justify-content:center;padding:30px;}
 
 :root{--accent:#d4a857;--bg:#0a1628;--bg2:#0d2137;--bg3:#112a45;}
 
@@ -16,167 +13,89 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
   background:linear-gradient(160deg,var(--bg) 0%,var(--bg2) 30%,var(--bg3) 60%,var(--bg) 100%);
   font-family:'Outfit',sans-serif;color:#c8d6e5;
   position:relative;overflow:hidden;
-  box-shadow:0 20px 60px rgba(0,0,0,0.5);
 }
-@media print{body{background:#000;padding:0;}.page{box-shadow:none;}@page{size:A4;margin:0;}}
+@media print{@page{size:A4;margin:0;}}
 
-/* Decorative ocean circles */
-.bubble{position:absolute;border-radius:50%;border:1px solid rgba(212,168,87,0.06);pointer-events:none;}
-.b1{width:300px;height:300px;top:-80px;right:-60px;background:radial-gradient(circle,rgba(212,168,87,0.04),transparent 70%);}
-.b2{width:200px;height:200px;bottom:80px;left:-50px;background:radial-gradient(circle,rgba(100,180,255,0.03),transparent 70%);}
-.b3{width:150px;height:150px;top:40%;right:20%;border-color:rgba(255,255,255,0.02);}
+/* Decorative circles */
+.bubble{position:absolute;border-radius:50%;pointer-events:none;}
+.b1{width:280px;height:280px;top:-80px;right:-60px;background:radial-gradient(circle,rgba(212,168,87,0.04),transparent 70%);}
+.b2{width:180px;height:180px;bottom:80px;left:-50px;background:radial-gradient(circle,rgba(100,180,255,0.03),transparent 70%);}
 
-/* Noise overlay */
-.page::after{
-  content:'';position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:10;
-}
+/* Grain */
+.page::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");pointer-events:none;z-index:10;}
 
 /* HEADER */
-.header{
-  padding:44px 48px 32px 48px;position:relative;z-index:5;
-  border-bottom:1px solid rgba(212,168,87,0.1);
-}
+.header{padding:36px 40px 28px;position:relative;z-index:5;border-bottom:1px solid rgba(212,168,87,0.1);}
 .header-row{display:flex;justify-content:space-between;align-items:flex-end;}
 
-.name-block{}
-.name-pre{font-size:11px;font-weight:300;letter-spacing:5px;text-transform:uppercase;color:var(--accent);opacity:0.6;margin-bottom:8px;}
-.name-big{
-  font-family:'Tenor Sans',serif;font-size:48px;
-  color:#fff;line-height:1;letter-spacing:2px;
-}
-.name-title{
-  font-size:14px;font-weight:300;color:rgba(200,214,229,0.5);
-  letter-spacing:3px;text-transform:uppercase;margin-top:12px;
-}
+/* Nom — 28px dans range 24-32 */
+.name-big{font-family:'Tenor Sans',serif;font-size:28px;color:#fff;line-height:1;letter-spacing:1px;}
+/* Titre — 12px */
+.name-title{font-size:12px;font-weight:300;color:rgba(200,214,229,0.6);letter-spacing:2px;text-transform:uppercase;margin-top:8px;}
 
 .contact-col{text-align:right;}
-.contact-item{
-  font-size:12px;color:rgba(200,214,229,0.5);line-height:2.2;font-weight:300;
-  display:flex;align-items:center;gap:8px;justify-content:flex-end;
-}
-.contact-item svg{width:12px;height:12px;fill:none;stroke:var(--accent);stroke-width:1.2;opacity:0.5;}
-.contact-item strong{color:rgba(255,255,255,0.85);font-weight:400;}
+/* Contact — 11px */
+.contact-item{font-size:11px;color:rgba(200,214,229,0.6);line-height:2;font-weight:300;display:flex;align-items:center;gap:6px;justify-content:flex-end;}
+.contact-item svg{width:11px;height:11px;fill:none;stroke:var(--accent);stroke-width:1.2;opacity:0.5;}
+.contact-item strong{color:rgba(255,255,255,0.9);font-weight:400;}
 
 /* BODY */
-.body{
-  padding:28px 48px 48px 48px;position:relative;z-index:5;
-  display:grid;grid-template-columns:1fr 230px;
-  grid-template-rows:auto 1fr auto;
-  gap:24px 36px;
-}
+.body{padding:24px 40px 36px;position:relative;z-index:5;display:grid;grid-template-columns:1fr 200px;grid-template-rows:auto 1fr auto;gap:16px 28px;}
 
-/* Section labels */
-.s-label{
-  font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:4px;
-  color:var(--accent);margin-bottom:14px;
-  display:flex;align-items:center;gap:10px;
-}
-.s-label::before{content:'';width:16px;height:1px;background:var(--accent);opacity:0.4;}
+/* Titres section — 14px */
+.s-label{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.s-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--accent),transparent);opacity:0.3;}
 
-/* Profil */
+/* Profil — 12px, interligne 1.6 */
 .profil-section{grid-column:1/-1;}
-.profil-text{
-  font-size:15px;color:rgba(200,214,229,0.65);line-height:2;font-weight:300;
-  padding-left:20px;border-left:2px solid rgba(212,168,87,0.2);
-}
+.profil-text{font-size:12px;color:rgba(200,214,229,0.75);line-height:1.6;font-weight:300;padding-left:14px;border-left:2px solid rgba(212,168,87,0.3);}
 .profil-text strong{color:#fff;font-weight:500;}
 
 /* Experience */
 .exp-section{grid-column:1;grid-row:2/4;}
-
-.exp{
-  margin-bottom:24px;position:relative;
-  padding:20px;
-  background:rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.04);
-  border-radius:8px;
-  backdrop-filter:blur(4px);
-}
-.exp::before{
-  content:'';position:absolute;top:0;left:0;width:3px;height:100%;
-  background:linear-gradient(180deg,var(--accent),transparent);border-radius:3px 0 0 3px;
-}
-.exp-role{font-size:18px;font-weight:600;color:#fff;letter-spacing:0.3px;}
-.exp-meta{
-  font-size:11px;color:var(--accent);font-weight:400;margin-top:4px;
-  display:flex;gap:8px;align-items:center;
-}
+.exp{margin-bottom:14px;padding:14px 16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:6px;position:relative;}
+.exp::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--accent),transparent);border-radius:3px 0 0 3px;}
+/* Titre poste — 15px */
+.exp-role{font-size:15px;font-weight:600;color:#fff;}
+.exp-meta{font-size:11px;color:var(--accent);font-weight:400;margin-top:2px;}
 .exp-meta span{color:rgba(200,214,229,0.3);}
-.exp-tasks{list-style:none;margin-top:12px;}
-.exp-tasks li{
-  font-size:13px;color:rgba(200,214,229,0.55);line-height:1.8;
-  padding-left:16px;position:relative;font-weight:300;
-}
-.exp-tasks li::before{
-  content:'';position:absolute;left:2px;top:10px;
-  width:6px;height:1px;background:var(--accent);opacity:0.4;
-}
+/* Tasks — 11px */
+.exp-tasks{list-style:none;margin-top:8px;}
+.exp-tasks li{font-size:11px;color:rgba(200,214,229,0.65);line-height:1.5;padding-left:14px;position:relative;font-weight:300;}
+.exp-tasks li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:1px;background:var(--accent);opacity:0.5;}
 
 /* Right column */
-.right-col{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:20px;}
-.right-bottom{grid-column:2;grid-row:3;display:flex;flex-direction:column;gap:18px;}
+.right-col{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:16px;}
+.right-bottom{grid-column:2;grid-row:3;display:flex;flex-direction:column;gap:14px;}
 
-/* Skills */
-.skill-item{
-  padding:10px 14px;margin-bottom:5px;
-  background:rgba(212,168,87,0.04);
-  border:1px solid rgba(212,168,87,0.08);
-  border-radius:6px;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.skill-name{font-size:13px;color:rgba(255,255,255,0.75);font-weight:300;}
-.skill-dots{display:flex;gap:3px;}
-.skill-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.08);}
-.skill-dot.filled{background:var(--accent);}
+/* Skills — tags 11px */
+.skill-tag{display:inline-block;font-size:11px;padding:4px 10px;margin:0 4px 5px 0;background:rgba(212,168,87,0.06);border:1px solid rgba(212,168,87,0.1);border-radius:4px;color:rgba(255,255,255,0.75);font-weight:400;}
 
-/* Education */
-.edu{
-  margin-bottom:12px;padding:12px 14px;
-  background:rgba(255,255,255,0.02);
-  border:1px solid rgba(255,255,255,0.04);
-  border-radius:6px;
-}
-.edu-degree{font-family:'Tenor Sans',serif;font-size:15px;color:#fff;}
-.edu-school{font-size:11px;color:rgba(200,214,229,0.35);margin-top:3px;font-weight:300;}
+/* Education — 11px */
+.edu{margin-bottom:10px;}
+.edu-degree{font-family:'Tenor Sans',serif;font-size:13px;color:#fff;}
+.edu-school{font-size:10px;color:rgba(200,214,229,0.4);margin-top:2px;font-weight:300;}
 
-/* Languages */
-.lang{margin-bottom:10px;}
-.lang-top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px;}
-.lang-name{color:rgba(255,255,255,0.7);font-weight:400;}
-.lang-level{color:rgba(200,214,229,0.35);font-weight:300;font-size:10px;}
-.lang-bar{height:2px;background:rgba(255,255,255,0.05);border-radius:1px;}
-.lang-fill{height:100%;background:linear-gradient(90deg,var(--accent),rgba(212,168,87,0.3));border-radius:1px;}
+/* Langues — 11px */
+.lang{display:flex;justify-content:space-between;padding:4px 0;font-size:11px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.lang-name{color:rgba(255,255,255,0.75);font-weight:400;}
+.lang-level{color:rgba(200,214,229,0.4);font-weight:300;font-size:10px;}
 
-/* Interests */
-.interests{display:flex;flex-wrap:wrap;gap:6px;}
-.interest-tag{
-  font-size:10px;padding:5px 12px;
-  border:1px solid rgba(212,168,87,0.12);
-  border-radius:4px;color:rgba(200,214,229,0.5);font-weight:300;
-  background:rgba(212,168,87,0.03);
-}
+/* Interets — 11px */
+.interest-tag{display:inline-block;font-size:11px;padding:3px 8px;border:1px solid rgba(212,168,87,0.1);border-radius:3px;color:rgba(200,214,229,0.5);font-weight:300;margin:0 4px 4px 0;}
 
-/* Footer line */
-.footer{
-  position:absolute;bottom:0;left:0;right:0;height:3px;z-index:5;
-  background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.2;
-}
+/* Footer */
+.footer{position:absolute;bottom:0;left:0;right:0;height:2px;z-index:5;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0.2;}
 </style>
 </head>
 <body>
 <div class="page">
-  <!-- Decorative bubbles -->
   <div class="bubble b1"></div>
   <div class="bubble b2"></div>
-  <div class="bubble b3"></div>
 
-  <!-- HEADER -->
   <div class="header">
     <div class="header-row">
-      <div class="name-block">
-        <div class="name-pre">Curriculum Vitae</div>
+      <div>
         <div class="name-big">{{firstName}} {{lastName}}</div>
         <div class="name-title">{{title}}</div>
       </div>
@@ -188,17 +107,14 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
     </div>
   </div>
 
-  <!-- BODY -->
   <div class="body">
-    <!-- Profil -->
     <div class="profil-section">
       <div class="s-label">Profil</div>
       <p class="profil-text">{{profile}}</p>
     </div>
 
-    <!-- Experience -->
     <div class="exp-section">
-      <div class="s-label">Experience</div>
+      <div class="s-label">Experiences</div>
       {{#experiences}}
       <div class="exp">
         <div class="exp-role">{{exp.title}}</div>
@@ -210,41 +126,27 @@ body{background:#222;display:flex;justify-content:center;padding:30px;}
       {{/experiences}}
     </div>
 
-    <!-- Skills -->
     <div class="right-col">
       <div>
         <div class="s-label">Competences</div>
-        {{#skills}}
-        <div class="skill-item">
-          <span class="skill-name">{{skill}}</span>
-          <div class="skill-dots"><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot filled"></div><div class="skill-dot"></div></div>
-        </div>
-        {{/skills}}
+        {{#skills}}<span class="skill-tag">{{skill}}</span>{{/skills}}
       </div>
     </div>
 
-    <!-- Bottom right -->
     <div class="right-bottom">
       <div>
         <div class="s-label">Formation</div>
         {{#education}}
-        <div class="edu">
-          <div class="edu-degree">{{edu.degree}}</div>
-          <div class="edu-school">{{edu.school}} — {{edu.year}}</div>
-        </div>
+        <div class="edu"><div class="edu-degree">{{edu.degree}}</div><div class="edu-school">{{edu.school}} — {{edu.year}}</div></div>
         {{/education}}
       </div>
       <div>
         <div class="s-label">Langues</div>
-        {{#languages}}
-        <div class="lang"><div class="lang-top"><span class="lang-name">{{lang.name}}</span><span class="lang-level">{{lang.level}}</span></div><div class="lang-bar"><div class="lang-fill" style="width:70%"></div></div></div>
-        {{/languages}}
+        {{#languages}}<div class="lang"><span class="lang-name">{{lang.name}}</span><span class="lang-level">{{lang.level}}</span></div>{{/languages}}
       </div>
       <div>
         <div class="s-label">Interets</div>
-        <div class="interests">
-          {{#interests}}<span class="interest-tag">{{interest}}</span>{{/interests}}
-        </div>
+        {{#interests}}<span class="interest-tag">{{interest}}</span>{{/interests}}
       </div>
     </div>
   </div>
